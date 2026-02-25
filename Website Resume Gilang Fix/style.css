@@ -1,0 +1,637 @@
+:root {
+    --primary-color: #6366f1;
+    /* Indigo 500 - Lighter for dark mode */
+    --secondary-color: #6366f1;
+    /* Indigo 500 */
+    --bg-color: #0f172a;
+    /* Slate 900 - Deep Blue/Black */
+    --card-bg: rgba(30, 41, 59, 0.7);
+    /* Slate 800 with transparency */
+    --text-primary: #f8fafc;
+    /* Slate 50 - Almost White */
+    --text-secondary: #cbd5e1;
+    /* Slate 300 - Light Gray */
+    --border-color: rgba(148, 163, 184, 0.1);
+    --btn-hover: #4338ca;
+    --shadow-soft: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.15);
+    --shadow-strong: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Disable mouse events on ApexCharts annotations so tooltips can trigger on data points */
+.no-mouse-events {
+    pointer-events: none !important;
+}
+
+body {
+    font-family: 'Nunito Sans', sans-serif;
+    background-color: var(--bg-color);
+    /* Subtle Grid Pattern for "Developer/Trading" look */
+    background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 50px 50px;
+
+    color: var(--text-primary);
+    line-height: 1.6;
+    min-height: 100vh;
+    padding: 2rem;
+}
+
+/* === TYPOGRAPHY: Raleway for headings, Nunito Sans for body === */
+h1,
+h2,
+h3,
+h4 {
+    font-family: 'Raleway', sans-serif;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Glassmorphism Cards */
+.profile-header,
+.chart-btn,
+.chart-display {
+    background: var(--card-bg);
+    /* Dark semi-transparent */
+    backdrop-filter: blur(12px);
+    /* Blur effect */
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--border-color);
+    border-radius: 1rem;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+}
+
+/* Header Specifics */
+.profile-header {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    padding: 2rem;
+    margin-bottom: 2rem;
+}
+
+.img-placeholder {
+    width: 100px;
+    height: 100px;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    border-radius: 50%;
+    color: white;
+    font-size: 2rem;
+    font-weight: 700;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    object-fit: cover;
+    /* ensures <img> fills circle without distortion */
+}
+
+.profile-info h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+    font-weight: 700;
+    letter-spacing: -0.025em;
+}
+
+.profile-info .quote {
+    color: var(--text-secondary);
+    font-style: normal;
+    font-size: 1.15rem;
+}
+
+/* Dashboard Grid */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 2rem;
+    min-height: 600px;
+}
+
+/* Sidebar / Controls */
+.control-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.chart-btn {
+    padding: 1.5rem;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.chart-btn:hover {
+    transform: translateY(-4px) scale(1.02);
+    background: rgba(45, 55, 72, 0.8);
+    /* Slightly lighter dark */
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+}
+
+.chart-btn.active {
+    background: rgba(30, 41, 59, 0.95);
+    border-left: 5px solid var(--primary-color);
+    box-shadow: 0 12px 24px rgba(99, 102, 241, 0.15);
+    /* Indigo glow */
+}
+
+.chart-btn .btn-title {
+    display: block;
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin-bottom: 0.25rem;
+    color: var(--text-primary);
+}
+
+
+
+/* Chart Display Area */
+.chart-display {
+    padding: 2.5rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.chart-header {
+    margin-bottom: 2rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    padding-bottom: 1rem;
+}
+
+.chart-header h2 {
+    font-size: 1.85rem;
+    color: #F8FAFC;
+    /* White */
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.025em;
+}
+
+.chart-header p {
+    color: #94A3B8;
+    /* Slate 400 */
+    font-size: 1.05rem;
+    font-weight: 400;
+    margin-top: 0;
+}
+
+#main-chart {
+    flex-grow: 1;
+    min-height: 450px;
+    width: 100%;
+}
+
+
+
+/* Responsive Design */
+@media (max-width: 900px) {
+    body {
+        padding: 1rem;
+    }
+
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .profile-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+
+    .img-placeholder {
+        width: 80px;
+        height: 80px;
+        font-size: 1.5rem;
+    }
+}
+
+
+/* ApexCharts Legend Cursor */
+.apexcharts-legend-series {
+    cursor: pointer !important;
+}
+
+/* CTA Section in Sidebar */
+.cta-section {
+    margin-top: auto;
+    /* Push to bottom of sidebar */
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* Center items instead of stretch */
+    gap: 0.75rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.btn-hire {
+    background-color: #059669;
+    /* Emerald Green */
+    color: white;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    padding: 0.8rem 2rem;
+    /* Slighly wider padding */
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+    box-shadow: none;
+    /* Green shadow */
+    width: auto;
+    /* Remove full width */
+    min-width: 160px;
+    /* Consitent size */
+}
+
+.btn-hire:hover {
+    transform: translateY(-2px);
+    box-shadow: none;
+    background-color: #4338ca;
+    /* Darker Indigo */
+}
+
+.link-cv {
+    color: #ffffff;
+    /* Emerald Green (Normal) */
+    text-decoration: none;
+    font-size: 0.95rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.5rem;
+    transition: color 0.2s;
+}
+
+.link-cv:hover {
+    color: var(--primary-color);
+    /* Indigo (Hover) */
+    text-decoration: underline;
+}
+
+/* --- EXPERIENCE SECTION --- */
+
+.experience-section {
+    margin-top: 4rem;
+    padding-bottom: 4rem;
+}
+
+.section-title {
+    text-align: center;
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 3rem;
+    color: var(--text-primary);
+    position: relative;
+    display: inline-block;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 4px;
+    background: var(--primary-color);
+    border-radius: 2px;
+}
+
+.experience-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    max-width: 1000px;
+    /* Limit width for better readability */
+    margin: 0 auto;
+}
+
+.exp-item {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    /* Image smaller than text */
+    gap: 2rem;
+    align-items: center;
+}
+
+.exp-item.reverse {
+    grid-template-columns: 1.5fr 1fr;
+    /* Text larger than image */
+}
+
+/* Image Placeholder */
+.img-placeholder-rect {
+    width: 100%;
+    height: 250px;
+    background: rgba(255, 255, 255, 0.05);
+    /* Very subtle fill */
+    border: 3px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--text-secondary);
+    font-size: 1.2rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    object-fit: cover;
+    /* ensures <img> fills the box without stretching */
+}
+
+.exp-item:hover .img-placeholder-rect {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+    background: rgba(99, 102, 241, 0.1);
+}
+
+/* Content Box */
+.exp-content {
+    background: var(--card-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--border-color);
+    border-radius: 1rem;
+    padding: 2rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.exp-item:hover .exp-content {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+    border-color: rgba(99, 102, 241, 0.3);
+}
+
+.exp-content h3 {
+    font-size: 1.5rem;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+    font-weight: 700;
+}
+
+.exp-content p {
+    color: var(--text-secondary);
+    font-size: 1rem;
+    line-height: 1.7;
+}
+
+/* Responsive Experience */
+@media (max-width: 768px) {
+
+    .exp-item,
+    .exp-item.reverse {
+        grid-template-columns: 1fr;
+        /* Stack vertically */
+        gap: 1.5rem;
+    }
+
+    /* Reorder for consistency on mobile: Image on top always? */
+    .exp-item.reverse .exp-image {
+        order: -1;
+    }
+
+    .img-placeholder-rect {
+        height: 200px;
+    }
+}
+
+/* --- SKILLS & TOOLS SECTION --- */
+
+.skills-section {
+    padding-bottom: 6rem;
+}
+
+.mt-5 {
+    margin-top: 5rem !important;
+    /* Spacing between Technical and Tools */
+}
+
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.skill-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+/* Circular Logo Placeholder */
+.skill-circle {
+    width: 120px;
+    height: 120px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--text-secondary);
+    font-weight: 600;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.skill-item:hover .skill-circle {
+    border-color: var(--secondary-color);
+    /* Pink border on hover */
+    color: var(--secondary-color);
+    box-shadow: 0 0 15px rgba(99, 102, 241, 0.3);
+    transform: scale(1.05);
+}
+
+/* Glassmorphism Text Box */
+.skill-box {
+    background: var(--card-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    /* Boxy but slightly rounded */
+    padding: 1rem 1.5rem;
+    width: 100%;
+    text-align: center;
+    color: var(--text-primary);
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow-soft);
+}
+
+.skill-box h4 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.4rem;
+}
+
+.skill-box p {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin: 0;
+}
+
+.skill-item:hover .skill-box {
+    transform: translateY(-3px);
+    border-color: rgba(99, 102, 241, 0.3);
+    /* Match circle hover */
+}
+
+/* Responsive Skills */
+@media (max-width: 900px) {
+    .skills-grid {
+        grid-template-columns: repeat(2, 1fr);
+        /* 2 columns on tablet */
+        gap: 3rem 2rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .skills-grid {
+        grid-template-columns: repeat(1, 1fr);
+        /* 1 column on mobile */
+    }
+}
+
+/* --- GET IN TOUCH SECTION --- */
+
+.contact-section {
+    padding-bottom: 4rem;
+    margin-top: 4rem;
+}
+
+.contact-content {
+    background: var(--card-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--border-color);
+    border-radius: 1rem;
+    padding: 3rem;
+    display: flex;
+    justify-content: space-between;
+    /* Layout: text left, actions right */
+    align-items: center;
+    box-shadow: var(--shadow-strong);
+}
+
+.contact-title {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.contact-subtitle {
+    color: var(--text-secondary);
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+    max-width: 500px;
+}
+
+.contact-actions {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.social-links {
+    display: flex;
+    gap: 1rem;
+}
+
+.social-circle {
+    width: 50px;
+    height: 50px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    font-weight: 700;
+    /* For 'in' text */
+}
+
+/* LinkedIn Blue */
+.social-circle.linkedin:hover {
+    background: #0077b5;
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 4px 10px rgba(0, 119, 181, 0.4);
+}
+
+/* YouTube Red */
+.social-circle.youtube:hover {
+    background: #ff0000;
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 4px 10px rgba(255, 0, 0, 0.4);
+}
+
+.contact-btn {
+    /* Reuse btn-hire but customized sizing if needed */
+    padding: 0.8rem 2.5rem;
+    font-size: 1.1rem;
+    background-color: #059669;
+    /* Explicit Green matches wireframe */
+    width: auto;
+    /* Ensure not full width */
+    /* Override shadow if needed? Inherited is fine */
+}
+
+.contact-btn:hover {
+    background-color: #4338ca;
+    /* Darker green */
+    box-shadow: none;
+    /* Glowing green */
+}
+
+/* Responsive Contact */
+@media (max-width: 768px) {
+    .contact-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 2rem;
+    }
+
+    .contact-subtitle {
+        margin: 0 auto 1.5rem auto;
+    }
+
+    .contact-actions {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+}
